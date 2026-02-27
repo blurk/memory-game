@@ -1,0 +1,131 @@
+:root {
+  --item-unmatch-color: oklch(0.4865 0.179 30.2);
+  --item-match-color: oklch(0.6024 0.101 197.4);
+  --item-select-color: oklch(0.884 0.0677 91.51);
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: cursive;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  margin-block: auto;
+}
+
+.grid {
+  max-width: min-content;
+  display: grid;
+  grid-template-columns: repeat(var(--col, 6), 1fr);
+  justify-items: center;
+  margin-block-start: 1rem;
+  gap: 0.5rem;
+  perspective: 1000px;
+
+  &[inert] {
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+  }
+}
+
+@keyframes tilt-shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(1deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.grid__item {
+  --border-color: black;
+  --text-color: white;
+
+  text-align: center;
+  align-content: center;
+  width: 5rem;
+  aspect-ratio: 1;
+  border: 4px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-color);
+  user-select: none;
+  font-size: 1.5rem;
+  will-change: transform;
+
+  &:hover {
+    --border-color: var(--item-select-color);
+  }
+
+  &.grid__item--is-selected {
+    --border-color: var(--item-select-color);
+    --text-color: black;
+
+    &.grid__item--is-unmatch {
+      --border-color: var(--item-unmatch-color);
+      animation: tilt-shake 0.4s ease-out;
+    }
+
+    &.grid__item--is-match {
+      --border-color: var(--item-match-color);
+      animation: jello-horizontal 0.4s both;
+    }
+  }
+
+  &.grid__item--is-solved {
+    --border-color: var(--item-match-color);
+
+    visibility: hidden;
+    pointer-events: none;
+    cursor: none;
+  }
+}
+
+button {
+  font-size: 1.2rem;
+  padding: 0.5em;
+  margin-block-start: 1rem;
+}
+
+@keyframes jello-horizontal {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
