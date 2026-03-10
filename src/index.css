@@ -2,6 +2,8 @@
   --item-unmatch-color: oklch(0.4865 0.179 30.2);
   --item-match-color: oklch(0.6024 0.101 197.4);
   --item-select-color: oklch(0.884 0.0677 91.51);
+
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 *,
@@ -71,9 +73,16 @@ main {
   user-select: none;
   font-size: 1.5rem;
   will-change: transform;
+  transition-property: transform, border-color, scale;
+  transition-duration: 150ms, 150ms, 150ms;
+  transition-timing-function: var(--default-transition-timing-function), ease, ease-in-out;
 
   &:hover {
     --border-color: var(--item-select-color);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 
   &.grid__item--is-selected {
